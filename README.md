@@ -1,2 +1,2 @@
 # ezpass
-Simple password generator
+Simple password generator in Rust with Clap
