@@ -21,13 +21,13 @@ fn main() {
                 .help("Enable special character => !@#$^&*")
                 .action(ArgAction::SetTrue)
         )
-        .arg(
-            Arg::new("minuscule")
-                .short('m')
-                .long("minuscule")
-                .help("Enable lowercase")
-                .action(ArgAction::SetTrue)
-        )
+//        .arg(
+//            Arg::new("minuscule")
+//                .short('m')
+//                .long("minuscule")
+//                .help("Enable lowercase")
+//                .action(ArgAction::SetTrue)
+//        )
         .arg(
             Arg::new("number")
                 .short('n')
@@ -42,32 +42,28 @@ fn main() {
                 .help("Enable uppercase")
                 .action(ArgAction::SetTrue)
         )
-        .group(
-            clap::ArgGroup::new("char_types")
-                .args(&["capitale", "minuscule", "number", "special"])
-                .required(true) // Au moins un argument requis
-        )
         .get_matches();
 
     let length = *matches.get_one::<u32>("length").unwrap();
-    let min = matches.get_flag("minuscule");
+    //let min = matches.get_flag("minuscule");
     let maj= matches.get_flag("capitale");
     let num= matches.get_flag("number");
     let spe = matches.get_flag("special");
 
-    let password = gen_password(length, maj, min, num, spe);
+    let password = gen_password(length, maj, num, spe);
 
     println!("{}", password);
 }
 
-fn gen_password(length: u32, maj: bool, min: bool, num: bool, spe: bool) -> String {
+fn gen_password(length: u32, maj: bool, num: bool, spe: bool) -> String {
     let mut rng = rand::rng();
     let mut password = String::new();
     let special_chars = b"!@#$%^&*()_+-=[]{}|;:,.<>?/";
 
     let mut choices = Vec::new();
+    choices.push(1);
+
     if maj { choices.push(0); }
-    if min { choices.push(1); }
     if num { choices.push(2); }
     if spe { choices.push(3); }
 
